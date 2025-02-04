@@ -422,6 +422,7 @@ public class TwoDimensionalArray {
         }
         System.out.println("Task 14: " + Arrays.deepToString(nums));
         System.out.println();
+        System.out.println();
     }
     //Повернуть матрицу 3х3 по часовой и против часовой стрелки.
 
