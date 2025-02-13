@@ -23,6 +23,7 @@ public class TwoDimensionalArray {
         twoDimensionalTask15();
         twoDimensionalTask16();
         twoDimensionalTask17();
+        twoDimensionalTask18();
     }
 
     //Вывести на экран матрицу m*n вида:
@@ -365,65 +366,214 @@ public class TwoDimensionalArray {
 
     //Удалить строку матрицы, в которой количество нулей максимально.
     private static void twoDimensionalTask16() {
-        int nums[][] = new int[5][5];
-        int counts[] = new int[nums.length];
-        int count = 0;
-        int count1 = 1;
-        int count2 = 0;
-        int max0 = Integer.MIN_VALUE;
-        for (int index = 0; index < nums.length; index++) {
-            for (int index1 = 0; index1 < nums[0].length; index1++) {
-                nums[index][index1] = new Random().nextInt(0, 3);
+        int sourceArr[][] = new int[5][5];
+        int countZeroInRowArr[] = new int[sourceArr.length];
+        int zeroCountInRow = 0;
+        int doubleMaxCount = 0;
+        int maxCountZeroInRow = Integer.MIN_VALUE;
+
+        for (int rowIndex = 0; rowIndex < sourceArr.length; rowIndex++) {
+            for (int colIndex = 0; colIndex < sourceArr[rowIndex].length; colIndex++) {
+                sourceArr[rowIndex][colIndex] = new Random().nextInt(0, 3);
             }
         }
-        for (int index = 0; index < nums.length; index++) {
-            for (int index1 = 0; index1 < nums[0].length; index1++) {
-                if (nums[index][index1] == 0) {
-                    count++;
+
+        for (int rowIndex = 0; rowIndex < sourceArr.length; rowIndex++) {
+            zeroCountInRow = 0;
+
+            for (int colIndex = 0; colIndex < sourceArr[rowIndex].length; colIndex++) {
+                if (sourceArr[rowIndex][colIndex] == 0) {
+                    zeroCountInRow++;
                 }
             }
-            counts[index] = count;
-            count = 0;
-        }
-        System.out.println("Task 16: " + Arrays.deepToString(nums));
-        System.out.println("Task 16: " + Arrays.toString(counts));
-        for (int index = 0; index < counts.length; index++) {
-            if (max0 < counts[index]) {
-                max0 = counts[index];
-            } else if (max0 == counts[index]) {
-                count1++;
+            countZeroInRowArr[rowIndex] = zeroCountInRow;
+
+            if (maxCountZeroInRow < countZeroInRowArr[rowIndex]) {
+                maxCountZeroInRow = countZeroInRowArr[rowIndex];
             }
         }
-        int ind[] = new int[nums.length - count1];
-        for (int index = 0, k = 0; index < counts.length; index++) {
-            if (max0 > counts[index]) {
-                ind[k] = index;
+
+        System.out.println("Task 16: sourceArr= " + Arrays.deepToString(sourceArr));
+        System.out.println("Task 16: countZeroInRowArr= " + Arrays.toString(countZeroInRowArr));
+        System.out.println("Task 16: maxCountZeroInRow= " + maxCountZeroInRow);
+
+        for (int index = 0; index < countZeroInRowArr.length; index++) {
+            if (maxCountZeroInRow == countZeroInRowArr[index]) {
+                doubleMaxCount++;
+            }
+        }
+
+        System.out.println("Task 16: doubleMaxCount= " + doubleMaxCount);
+
+        int rowIndexWithMaxZeroCountArr[] = new int[doubleMaxCount];
+
+        for (int index = 0, k = 0; index < countZeroInRowArr.length; index++) {
+            if (maxCountZeroInRow == countZeroInRowArr[index]) {
+                rowIndexWithMaxZeroCountArr[k] = index;
                 k++;
             }
         }
-        System.out.println("Task 16: " + Arrays.toString(ind));
-        int nums1[][] = new int[nums.length - count1][nums[0].length];
-        for (int index = 0; index < nums1.length; index++) {
-            for (int index1 = 0; index1 < nums[0].length; index1++) {
-                nums1[index][index1] = nums[ind[index]][index1];
+
+        System.out.println("Task 16: rowIndexWithMaxZeroCountArr= " + Arrays.toString(rowIndexWithMaxZeroCountArr));
+
+        int resultArray[][] = new int[sourceArr.length - doubleMaxCount][sourceArr[0].length];
+
+        for (int sourcIndex = 0, resIndex = 0; sourcIndex < sourceArr.length; sourcIndex++) {
+            boolean skipIndex = false;
+
+            for (int i = 0; i < rowIndexWithMaxZeroCountArr.length; i++) {
+                if (sourcIndex == rowIndexWithMaxZeroCountArr[i]) {
+                    skipIndex = true;
+                    break;
+                }
             }
+
+            if (skipIndex) {
+                continue;
+            }
+
+            resultArray[resIndex] = sourceArr[sourcIndex];
+            resIndex++;
         }
-        System.out.println("Task 16: " + Arrays.deepToString(nums1));
+
+        System.out.println("Task 16: resultArray= " + Arrays.deepToString(resultArray));
         System.out.println();
     }
 
     //В матрице удалить столбцы с максимальным и минимальным элементами матрицы, а затем на место первого добавить столбец из произведений элементов соответствующих строк. &
     private static void twoDimensionalTask17() {
-        int nums[][] = new int[5][6];
-        for (int index = 0; index < nums.length; index++) {
-            for (int index1 = 0; index1 < nums[0].length; index1++) {
-                nums[index][index1] = new Random().nextInt(0, 100);
+        int sourceArr[][] = new int[5][5];
+        int minColumnVal = Integer.MAX_VALUE;
+        int maxColumnVal = Integer.MIN_VALUE;
+        int minColumnIndex = 0;
+        int maxColumnIndex = 0;
+        int minRowIndex = 0;
+        int maxRowIndex = 0;
+        int minMaxEqualCounter = 0;
+        int rowMultiplCounter = 0;
+
+        for (int rowIndex = 0; rowIndex < sourceArr.length; rowIndex++) {
+            for (int columnIndex = 0; columnIndex < sourceArr[0].length; columnIndex++) {
+                sourceArr[rowIndex][columnIndex] = new Random().nextInt(0, 10);
             }
         }
-        System.out.println("Task 14: " + Arrays.deepToString(nums));
-        System.out.println();
+
+        System.out.println("Task 17: sourceArr = " + Arrays.deepToString(sourceArr));
+
+        for (int columnIndex = 0; columnIndex < sourceArr[0].length; columnIndex++) {
+            for (int rowIndex = 0; rowIndex < sourceArr.length; rowIndex++) {
+                if (minColumnVal > sourceArr[rowIndex][columnIndex]) {
+                    minColumnVal = sourceArr[rowIndex][columnIndex];
+                    minColumnIndex = columnIndex;
+                    minRowIndex = rowIndex;
+                }
+                if (maxColumnVal < sourceArr[rowIndex][columnIndex]) {
+                    maxColumnVal = sourceArr[rowIndex][columnIndex];
+                    maxColumnIndex = columnIndex;
+                    maxRowIndex = rowIndex;
+                }
+            }
+        }
+
+        System.out.println("Task 17: minColumnIndex = " + minColumnIndex);
+        System.out.println("Task 17: minColumnVal = " + minColumnVal);
+        System.out.println("Task 17: maxColumnIndex = " + maxColumnIndex);
+        System.out.println("Task 17: maxColumnVal = " + maxColumnVal);
+
+        for (int columnIndex = 0; columnIndex < sourceArr[0].length; columnIndex++) {
+            for (int rowIndex = 0; rowIndex < sourceArr.length; rowIndex++) {
+                if (sourceArr[rowIndex][columnIndex] == maxColumnVal || sourceArr[rowIndex][columnIndex] == minColumnVal) {
+                    minMaxEqualCounter++;
+                    break;
+                }
+            }
+        }
+        System.out.println("Task 17: minMaxEqualCounter = " + minMaxEqualCounter);
+
+        int columnIndexForDelete[] = new int[minMaxEqualCounter];
+
+        for (int columnIndex = 0, indexDel = 0; columnIndex < sourceArr[0].length; columnIndex++) {
+            for (int rowIndex = 0; rowIndex < sourceArr.length; rowIndex++) {
+                if (sourceArr[rowIndex][columnIndex] == minColumnVal || sourceArr[rowIndex][columnIndex] == maxColumnVal) {
+                    columnIndexForDelete[indexDel] = columnIndex;
+                    indexDel++;
+                    break;
+                }
+            }
+        }
+        System.out.println("Task 17: columnIndexForDelete = " + Arrays.toString(columnIndexForDelete));
+
+        for (int rowIndex = 0; rowIndex < sourceArr.length; rowIndex++) {
+            for (int columnIndex = 0; columnIndex < sourceArr[0].length; columnIndex++) {
+                if (sourceArr[rowIndex][columnIndex] == maxColumnVal || sourceArr[rowIndex][columnIndex] == minColumnVal) {
+                    rowMultiplCounter++;
+                }
+            }
+        }
+        System.out.println("Task 17: rowMultiplCounter = " + rowMultiplCounter);
+
+        int rowIndexForMultipl[] = new int[rowMultiplCounter];
+
+        for (int rowIndex = 0, multiplIndex = 0; rowIndex < sourceArr.length; rowIndex++) {
+            for (int columnIndex = 0; columnIndex < sourceArr[0].length; columnIndex++) {
+                if (sourceArr[rowIndex][columnIndex] == minColumnVal || sourceArr[rowIndex][columnIndex] == maxColumnVal) {
+                    rowIndexForMultipl[multiplIndex] = rowIndex;
+                    multiplIndex++;
+                }
+            }
+        }
+
+        System.out.println("Task 17: rowIndexForMultipl = " + Arrays.toString(rowIndexForMultipl));
+
+        int resultArr[][] = new int[sourceArr.length][sourceArr[0].length - minMaxEqualCounter + 1];
+
+        for (int rowIndex = 0; rowIndex < sourceArr.length; rowIndex++) {
+            int resultMultiple = 1;
+            for (int multipIndex = 0; multipIndex < rowIndexForMultipl.length; multipIndex++) {
+                resultMultiple *= sourceArr[rowIndexForMultipl[multipIndex]][rowIndex];
+            }
+            resultArr[rowIndex][0] = resultMultiple;
+        }
+        System.out.println("Task 17: resultArr = " + Arrays.deepToString(resultArr));
+
+        for (int rowIndex = 0; rowIndex < sourceArr.length; rowIndex++) {
+            for (int columnResultIndex = 1, columnSourceIndex = 0; columnResultIndex < resultArr[0].length; columnResultIndex++, columnSourceIndex++) {
+                if (columnSourceIndex == maxColumnIndex || columnSourceIndex == minColumnIndex) {
+                    columnResultIndex--;
+                    continue;
+                }
+                resultArr[rowIndex][columnResultIndex] = sourceArr[rowIndex][columnSourceIndex];
+            }
+        }
+        System.out.println("Task 17: resultArr = " + Arrays.deepToString(resultArr));
         System.out.println();
     }
-    //Повернуть матрицу 3х3 по часовой и против часовой стрелки.
 
+    //Повернуть матрицу 3х3 по часовой и против часовой стрелки.
+    private static void twoDimensionalTask18() {
+        int array[][] = new int[3][3];
+
+        for (int rowIndex = 0; rowIndex < array.length; rowIndex++) {
+            for (int columnIndex = 0; columnIndex < array[0].length; columnIndex++) {
+                array[rowIndex][columnIndex] = new Random().nextInt(0, 10);
+            }
+        }
+        System.out.println("Task 18: array = " + Arrays.deepToString(array));
+
+        int rollLeftArray[][] = new int[array.length][array[0].length];
+        for (int rowIndex = 0, columnRollIndex = 0; rowIndex < array.length; rowIndex++, columnRollIndex++) {
+            for (int columnIndex = 0, rollRowIndex = array.length - 1; columnIndex < array[0].length; columnIndex++, rollRowIndex--) {
+                rollLeftArray[rollRowIndex][columnRollIndex] = array[rowIndex][columnIndex];
+            }
+        }
+        System.out.println("Task 18: rollLeftArray = " + Arrays.deepToString(rollLeftArray));
+
+        int rollRightArray[][] = new int[array.length][array[0].length];
+        for (int rowIndex = 0, columnRollIndex = array.length - 1; rowIndex < array.length; rowIndex++, columnRollIndex--) {
+            for (int columnIndex = 0, rollRowIndex = 0; columnIndex < array[0].length; columnIndex++, rollRowIndex++) {
+                rollRightArray[rollRowIndex][columnRollIndex] = array[rowIndex][columnIndex];
+            }
+        }
+        System.out.println("Task 18: rollRightArray = " + Arrays.deepToString(rollRightArray));
+    }
 }
