@@ -24,6 +24,8 @@ public class TwoDimensionalArray {
         twoDimensionalTask16();
         twoDimensionalTask17();
         twoDimensionalTask18();
+        manyDimensionalTask1();
+        navyFight();
     }
 
     //Вывести на экран матрицу m*n вида:
@@ -65,10 +67,10 @@ public class TwoDimensionalArray {
     //2, 5, 8
     //3, 6, 9
     private static void twoDimensionalTask3() {
-        int nums[][] = new int[3][3];
+        int nums[][] = new int[3][5];
         int numb = 1;
-        for (int index = 0; index < nums.length; index++) {
-            for (int index1 = 0; index1 < nums[0].length; index1++) {
+        for (int index = 0; index < nums[0].length; index++) {
+            for (int index1 = 0; index1 < nums.length; index1++) {
                 nums[index1][index] = numb;
                 numb++;
             }
@@ -82,8 +84,8 @@ public class TwoDimensionalArray {
     //6, 5, 4
     //3, 2, 1
     private static void twoDimensionalTask4() {
-        int nums[][] = new int[3][3];
-        int numb = 9;
+        int nums[][] = new int[3][5];
+        int numb = nums.length * nums[0].length;
         for (int index = 0; index < nums.length; index++) {
             for (int index1 = 0; index1 < nums[0].length; index1++) {
                 nums[index][index1] = numb;
@@ -100,7 +102,7 @@ public class TwoDimensionalArray {
     //4, 3, 2, 1
     private static void twoDimensionalTask5() {
         int nums[][] = new int[3][4];
-        int numb = 12;
+        int numb = nums.length * nums[0].length;
         for (int index = 0; index < nums.length; index++) {
             for (int index1 = 0; index1 < nums[0].length; index1++) {
                 nums[index][index1] = numb;
@@ -114,11 +116,9 @@ public class TwoDimensionalArray {
     //Дана матрица размера 3х3. Вывести на экран первый и последний столбцы.
     private static void twoDimensionalTask6() {
         int nums[][] = new int[3][4];
-        int numb = 12;
         for (int index = 0; index < nums.length; index++) {
             for (int index1 = 0; index1 < nums[0].length; index1++) {
-                numb = new Random().nextInt(0, 10);
-                nums[index][index1] = numb;
+                nums[index][index1] = new Random().nextInt(0, 10);
             }
         }
         System.out.println("Task6: " + Arrays.deepToString(nums));
@@ -250,15 +250,13 @@ public class TwoDimensionalArray {
     private static void twoDimensionalTask11() {
         int nums[][] = new int[5][5];
         int summ = 0;
-        int index2 = 0;
         for (int index = 0; index < nums.length; index++) {
             for (int index1 = 0; index1 < nums[0].length; index1++) {
                 nums[index][index1] = new Random().nextInt(0, 100);
             }
         }
         for (int index = 0; index < nums.length; index++) {
-            summ += nums[index][index2];
-            index2++;
+            summ += nums[index][index];
         }
         System.out.println("Task 11: " + Arrays.deepToString(nums));
         System.out.println("Task 11: " + summ);
@@ -287,8 +285,8 @@ public class TwoDimensionalArray {
     //Дана целочисленная матрица размера 5×5. Переставить местами 4 и 5 строку.
     private static void twoDimensionalTask13() {
         int nums[][] = new int[5][5];
-        int string1 = 4;
-        int string2 = 5;
+        int rowNum1 = 4;
+        int rowNum2 = 5;
         int z = 0;
         for (int index = 0; index < nums.length; index++) {
             for (int index1 = 0; index1 < nums[0].length; index1++) {
@@ -297,9 +295,9 @@ public class TwoDimensionalArray {
         }
         System.out.println("Task 13: " + Arrays.deepToString(nums));
         for (int index = 0; index < nums[0].length; index++) {
-            z = nums[string1 - 1][index];
-            nums[string1 - 1][index] = nums[string2 - 1][index];
-            nums[string2 - 1][index] = z;
+            z = nums[rowNum1 - 1][index];
+            nums[rowNum1 - 1][index] = nums[rowNum2 - 1][index];
+            nums[rowNum2 - 1][index] = z;
         }
         System.out.println("Task 13: " + Arrays.deepToString(nums));
         System.out.println();
@@ -307,7 +305,7 @@ public class TwoDimensionalArray {
 
     //Дана квадратная матрица порядка M. Зеркально отразить ее элементы относительно горизонтальной оси симметрии матрицы.
     private static void twoDimensionalTask14() {
-        int nums[][] = new int[5][6];
+        int nums[][] = new int[5][5];
         int z = 0;
         for (int index = 0; index < nums.length; index++) {
             for (int index1 = 0; index1 < nums[0].length; index1++) {
@@ -341,20 +339,20 @@ public class TwoDimensionalArray {
         nums[2][2] = 16;
         int min = 0;
         int max = Integer.MIN_VALUE;
-        int indexMAX = 0;
+        int inexMaxCol = 0;
         System.out.println("Task 15: " + Arrays.deepToString(nums));
         for (int index = 0; index < nums.length; index++) {
             max = Integer.MIN_VALUE;
             for (int index1 = 0; index1 < nums[0].length; index1++) {
                 if (max < nums[index][index1]) {
                     max = nums[index][index1];
-                    indexMAX = index1;
+                    inexMaxCol = index1;
                     min = max;
                 }
             }
             for (int i = 0; i < nums.length; i++) {
-                if (min > nums[i][indexMAX]) {
-                    min = nums[i][indexMAX];
+                if (min > nums[i][inexMaxCol]) {
+                    min = nums[i][inexMaxCol];
                 }
             }
             if (min == max) {
@@ -575,5 +573,30 @@ public class TwoDimensionalArray {
             }
         }
         System.out.println("Task 18: rollRightArray = " + Arrays.deepToString(rollRightArray));
+    }
+
+    private static void manyDimensionalTask1() {
+        int nums[][][] = new int[3][3][3];
+        int numb = 0;
+        for (int rowIndex = 0; rowIndex < nums.length; rowIndex++) {
+            for (int columnIndex = 0; columnIndex < nums[0].length; columnIndex++) {
+                for (int heightIndex = 0; heightIndex < nums[0][0].length; heightIndex++) {
+                    nums[rowIndex][columnIndex][heightIndex] = new Random().nextInt(0, 10);
+                }
+            }
+        }
+        System.out.println("Task1/1: " + Arrays.deepToString(nums));
+        System.out.println();
+    }
+
+    private static void navyFight() {
+        int nums[][] = new int[10][10];
+        for (int rowIndex = 0; rowIndex < nums.length; rowIndex++) {
+            for (int columnIndex = 0; columnIndex < nums[0].length; columnIndex++) {
+                nums[rowIndex][columnIndex] = 0;
+            }
+        }
+        System.out.println("navyFight: " + Arrays.deepToString(nums));
+        System.out.println();
     }
 }
