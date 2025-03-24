@@ -591,9 +591,80 @@ public class TwoDimensionalArray {
 
     private static void navyFight() {
         int nums[][] = new int[10][10];
+        int rowShip = 0;
+        int columnShip = 0;
         for (int rowIndex = 0; rowIndex < nums.length; rowIndex++) {
             for (int columnIndex = 0; columnIndex < nums[0].length; columnIndex++) {
                 nums[rowIndex][columnIndex] = 0;
+            }
+        }
+        for (int shipCount = 0; shipCount < 10; shipCount++) {
+            rowShip = new Random().nextInt(0, 9);
+            columnShip = new Random().nextInt(0, 9);
+            if (nums[rowShip][columnShip] == 0) {
+                if (rowShip == 0 & columnShip == 0) {
+                    if (nums[rowShip + 1][columnShip] == 0 & nums[rowShip + 1][columnShip + 1] == 0 & nums[rowShip][columnShip + 1] == 0) {
+                        nums[rowShip][columnShip] = 1;
+                    } else {
+                        shipCount--;
+                    }
+                } else if (rowShip == 0 & columnShip != 0 & columnShip != 9) {
+                    if (nums[rowShip + 1][columnShip] == 0 & nums[rowShip + 1][columnShip + 1] == 0 & nums[rowShip][columnShip + 1] == 0
+                            & nums[rowShip][columnShip - 1] == 0 & nums[rowShip + 1][columnShip - 1] == 0) {
+                        nums[rowShip][columnShip] = 1;
+                    } else {
+                        shipCount--;
+                    }
+                } else if (rowShip != 0 & columnShip != 0 & rowShip != 9 & columnShip != 9) {
+                    if (nums[rowShip - 1][columnShip - 1] == 0 & nums[rowShip - 1][columnShip] == 0 & nums[rowShip - 1][columnShip + 1] == 0
+                            & nums[rowShip][columnShip - 1] == 0 & nums[rowShip][columnShip + 1] == 0 & nums[rowShip + 1][columnShip - 1] == 0
+                            & nums[rowShip + 1][columnShip] == 0 & nums[rowShip + 1][columnShip + 1] == 0) {
+                        nums[rowShip][columnShip] = 1;
+                    } else {
+                        shipCount--;
+                    }
+                } else if (rowShip != 0 & rowShip != 9 & columnShip == 0) {
+                    if (nums[rowShip - 1][columnShip] == 0 & nums[rowShip - 1][columnShip + 1] == 0 & nums[rowShip][columnShip + 1] == 0
+                            & nums[rowShip + 1][columnShip] == 0 & nums[rowShip + 1][columnShip + 1] == 0) {
+                        nums[rowShip][columnShip] = 1;
+                    } else {
+                        shipCount--;
+                    }
+                } else if (rowShip == 9 & columnShip == 0) {
+                    if (nums[rowShip - 1][columnShip] == 0 & nums[rowShip - 1][columnShip + 1] == 0 & nums[rowShip][columnShip + 1] == 0) {
+                        nums[rowShip][columnShip] = 1;
+                    } else {
+                        shipCount--;
+                    }
+                } else if (rowShip == 9 & columnShip != 0 & columnShip != 9) {
+                    if (nums[rowShip][columnShip - 1] == 0 & nums[rowShip][columnShip + 1] == 0 & nums[rowShip - 1][columnShip - 1] == 0
+                            & nums[rowShip - 1][columnShip] == 0 & nums[rowShip][columnShip + 1] == 0) {
+                        nums[rowShip][columnShip] = 1;
+                    } else {
+                        shipCount--;
+                    }
+                } else if (rowShip == 9 & columnShip == 9) {
+                    if (nums[rowShip][columnShip - 1] == 0 & nums[rowShip - 1][columnShip - 1] == 0 & nums[rowShip - 1][columnShip] == 0) {
+                        nums[rowShip][columnShip] = 1;
+                    } else {
+                        shipCount--;
+                    }
+                } else if (rowShip == 0 & columnShip == 9) {
+                    if (nums[rowShip][columnShip - 1] == 0 & nums[rowShip + 1][columnShip - 1] == 0 & nums[rowShip + 1][columnShip] == 0) {
+                        nums[rowShip][columnShip] = 1;
+                    } else {
+                        shipCount--;
+                    }
+                } else if (columnShip == 9 & rowShip != 0 & rowShip != 9) {
+                    if (nums[rowShip - 1][columnShip - 1] == 0 & nums[rowShip - 1][columnShip] == 0 & nums[rowShip][columnShip - 1] == 0
+                            & nums[rowShip + 1][columnShip - 1] == 0 & nums[rowShip + 1][columnShip] == 0) {
+                        nums[rowShip][columnShip] = 1;
+                    } else {
+                        shipCount--;
+                    }
+                }
+            } else {
+                shipCount--;
             }
         }
         System.out.println("navyFight: " + Arrays.deepToString(nums));
